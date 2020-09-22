@@ -824,7 +824,7 @@ class Dataset(object):
         """
 
         if self.files is None:
-            self.files = []
+            self.files = set()
             for path in self.audio_paths:
                 if path and os.path.exists(path):
                     dir_list = os.listdir(path)
@@ -832,8 +832,9 @@ class Dataset(object):
                         file_name, file_extension = os.path.splitext(f)
                         if file_extension[1:] in self.audio_extensions:
                             if os.path.abspath(os.path.join(path, f)) not in self.files:
-                                self.files.append(os.path.abspath(os.path.join(path, f)))
+                                self.files.add(os.path.abspath(os.path.join(path, f)))
 
+            self.files = list(self.files)
             self.files.sort()
         return self.files
 
